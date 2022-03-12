@@ -1,0 +1,20 @@
+---
+- hosts: db
+  tasks:
+    - name: update packages
+      dnf:
+        name: "*"
+        state: latest
+    - name: install mariadb and dependencies
+      dnf:
+        name: ['mariadb-server', 'python3-PyMySQL']
+        state: latest
+    - name: Make sure a service unit is running
+      ansible.builtin.systemd:
+        state: started
+        name: mariadb
+    - name: Removes anonymous user account for localhost
+      community.mysql.mysql_user:
+        name: ''
+        host: 192.168.122.1
+        state: absent

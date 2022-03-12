@@ -1,0 +1,17 @@
+---
+- hosts: load-balancer
+  tasks:
+    - name: update packages
+      dnf:
+        name: "*"
+        state: latest
+    - name: install nginx and mod-stream
+      dnf:
+        name: [nginx, nginx-mod-stream]
+        state: latest
+    - name: copy nginx.conf
+      ansible.builtin.copy:
+        src: nginx.conf
+        dest: /etc/nginx
+        owner: root
+        mode: '0644'

@@ -1,0 +1,21 @@
+---
+- hosts: wordpress
+  tasks:
+          - name: update   packages
+            dnf:
+              name: "*"
+              state: latest
+          - name: install php-mysqlnd
+            dnf:
+              name: php-mysqlnd
+              state: latest
+          - name: install wordpress
+            dnf: 
+              name: wordpress
+              state: latest
+          - name: install @web_server
+            dnf:
+              name: '@Web Server'
+              state: latest
+          - name: Run selinux commands
+            command: setsebool -P httpd_can_network_connect_db=1
